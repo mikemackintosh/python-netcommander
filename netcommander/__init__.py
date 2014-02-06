@@ -29,9 +29,10 @@ class Credentials(object):
     """
     This can be subclassed to create custom credential stores
     """
-    def __init__(self, username, password, port=22):
+    def __init__(self, username, password, ssh_key=null, port=22):
         self.username = username
         self.password = password
+        self.ssh_key = ssh_key
         self.port = port
 
 class DictMixin(collections.MutableMapping):
@@ -135,6 +136,7 @@ class Manager(object):
         payload = {'username': self._credentials.username,
                    'password': self._credentials.password,
                    'port': self._credentials.port,
+                   'key': self._credentials.ssh_key,
                    'hosts': devices.hostnames,
                    'request': etree.tostring(tree)}
         req = self._make_request(json.dumps(payload))
